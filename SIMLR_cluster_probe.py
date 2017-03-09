@@ -74,6 +74,6 @@ if __name__ == '__main__':
             y_pred = simlr.fast_minibatch_kmeans(F, cluster_size)
             print >>nmi_stream, '{}\t{}\t{}'.format(
                     cluster_size, 
-                    nmi(y_pred.flatten(),label.flatten())
+                    nmi(y_pred.flatten(),label.flatten()),
                     ari(y_pred.flatten(),label.flatten())
                 )
