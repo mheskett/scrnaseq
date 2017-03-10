@@ -59,13 +59,13 @@ if __name__ == '__main__':
     cells_by_genes.data = np.log10(
                 1 + cells_by_genes.data
             )
+    print >>sys.stderr, 'Cells by genes matrix has dimensions {}.'.format(
+            cells_by_genes.shape
+        )
     if cells_by_genes.shape[1] > 500:
         cells_by_genes = SIMLR.helper.fast_pca(cells_by_genes, 500)
     else:
         cells_by_genes = cells_by_genes.todense()
-    print >>sys.stderr, 'Cells by genes matrix has dimensions {}.'.format(
-            cells_by_genes.shape
-        )
     with open(os.path.join(args.output, 'kmeans.tsv'), 'w') as kmeans_stream:
         print >>kmeans_stream, 'cluster size\tkmeans objective function value'
         for cluster_size in xrange(args.k_min, args.k_max + 1):
@@ -79,6 +79,15 @@ if __name__ == '__main__':
             simlr = SIMLR.SIMLR_LARGE(cluster_size, args.nn,
                                         1 if args.save_memory else 0)
             S, F, val, ind = simlr.fit(cells_by_genes)
+            print '--this is F--'
+            print F
+            print '--this is S--'
+            print S
+            print '--this is val--'
+            print val
+            print '--this is ind--'
+            print ind
+            quit()
             y_pred = simlr.fast_minibatch_kmeans(F, cluster_size)
             clusters = defaultdict(set)
             for i, label in enumerate(y_pred):
