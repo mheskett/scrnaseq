@@ -54,7 +54,10 @@ if __name__ == '__main__':
             map(float, line.strip().split('\t')[1:])
             for line in sys.stdin.read().split('\n')[1:]
         ]
-    cells_by_genes = np.log10(1 + csr_matrix(zip(*cells_by_genes)).data)
+    cells_by_genes = csr_matrix(zip(*cells_by_genes))
+    cells_by_genes.data = np.log10(
+                1 + cells_by_genes.data
+            )
     print >>sys.stderr, 'Cells by genes matrix has dimensions "{}".'.format(
             cells_by_genes.shape
         )
