@@ -52,9 +52,10 @@ if __name__ == '__main__':
     print >>sys.stderr, 'Reading input data...'
     cells_by_genes = [
             map(float, line.strip().split('\t')[1:])
-            for line in sys.stdin.read().split('\n')[1:]
+            for line in sys.stdin.readlines()[1:]
         ]
-    print zip(*cells_by_genes)
+    print cells_by_genes
+    quit()
     cells_by_genes = csr_matrix(zip(*cells_by_genes))
     cells_by_genes.data = np.log10(
                 1 + cells_by_genes.data
