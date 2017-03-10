@@ -66,7 +66,7 @@ if __name__ == '__main__':
     print >>sys.stderr, 'Cells by genes matrix has dimensions {}.'.format(
             cells_by_genes.shape
         )
-    with open(os.path.join(args.output, 'nmi_ari.tsv'), 'w') as kmeans_stream:
+    with open(os.path.join(args.output, 'kmeans.tsv'), 'w') as kmeans_stream:
         print >>kmeans_stream, 'cluster size\tkmeans objective function value'
         for cluster_size in xrange(args.k_min, args.k_max + 1):
             # Obtain log transform of gene counts to make data Gaussian
