@@ -22,6 +22,7 @@ from sklearn.metrics.cluster import adjusted_rand_score as ari
 from scipy.sparse import csr_matrix
 import argparse
 import errno
+from collections import defaultdict
 
 if __name__ == '__main__':
     import argparse
@@ -79,5 +80,22 @@ if __name__ == '__main__':
                                         1 if args.save_memory else 0)
             S, F, val, ind = simlr.fit(cells_by_genes)
             y_pred = simlr.fast_minibatch_kmeans(F, cluster_size)
-            print y_pred
-            quit()
+            clusters = defaultdict(set)
+            for i, label in emumerate(y_pred):
+                clusters[label].add(i)
+            centroids = {}
+            for label in clusters:
+                transposed_points = zip(
+                        *[point for i, point in enumerate(F)
+                            if i in clusters[label]]
+                    )
+                centroids[label] = [
+                        sum(component) for component in transposed_points
+                    ]
+                length = len(centroids[label])
+                centroids[label] = [float(component) / length
+                                        for component in centroids[label]]
+            kmeans_objective = 0.0
+            for i, label in enumerate(y_pred):
+                kmeans_objective += sum([(F[i][j] - centroids[label][j])**2
+                                            for j in xrange(len(F[i]))])
