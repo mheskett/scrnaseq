@@ -62,7 +62,7 @@ if __name__ == '__main__':
             cells_by_genes.shape
         )
     with open(os.path.join(args.output, 'nmi_ari.tsv'), 'w') as nmi_stream:
-        print >>nmi_stream, 'cluster size\tnmi\tari'
+        print >>nmi_stream, 'cluster size\tkmeans objective function value'
         for cluster_size in xrange(args.k_min, args.k_max + 1):
             # Obtain log transform of gene counts to make data Gaussian
             print >>sys.stderr, "Running PCA for cluster size {}.".format(
@@ -79,8 +79,5 @@ if __name__ == '__main__':
                                         1 if args.save_memory else 0)
             S, F, val, ind = simlr.fit(cells_by_genes)
             y_pred = simlr.fast_minibatch_kmeans(F, cluster_size)
-            print >>nmi_stream, '{}\t{}\t{}'.format(
-                    cluster_size, 
-                    nmi(y_pred.flatten(),label.flatten()),
-                    ari(y_pred.flatten(),label.flatten())
-                )
+            print y_pred
+            quit()
