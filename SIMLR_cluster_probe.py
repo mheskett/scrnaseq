@@ -56,6 +56,7 @@ if __name__ == '__main__':
             for line in sys.stdin.readlines()[1:]
         ]
     cells_by_genes = csr_matrix(zip(*cells_by_genes))
+    # Obtain log transform of gene counts to make data Gaussian
     cells_by_genes.data = np.log10(
                 1 + cells_by_genes.data
             )
@@ -63,16 +64,13 @@ if __name__ == '__main__':
             cells_by_genes.shape
         )
     if cells_by_genes.shape[1] > 500:
+        print >>sys.stderr, "Running PCA.".format(cluster_size)
         cells_by_genes = SIMLR.helper.fast_pca(cells_by_genes, 500)
     else:
         cells_by_genes = cells_by_genes.todense()
     with open(os.path.join(args.output, 'kmeans.tsv'), 'w') as kmeans_stream:
         print >>kmeans_stream, 'cluster size\tkmeans objective function value'
         for cluster_size in xrange(args.k_min, args.k_max + 1):
-            # Obtain log transform of gene counts to make data Gaussian
-            print >>sys.stderr, "Running PCA for cluster size {}.".format(
-                                                                cluster_size
-                                                            )
             print >>sys.stderr, "Running SIMLR for cluster size {}.".format(
                                                                 cluster_size
                                                             )
