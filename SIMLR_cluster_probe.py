@@ -58,7 +58,7 @@ if __name__ == '__main__':
     cells_by_genes.data = np.log10(
                 1 + cells_by_genes.data
             )
-    print >>sys.stderr, 'Cells by genes matrix has dimensions "{}".'.format(
+    print >>sys.stderr, 'Cells by genes matrix has dimensions {}.'.format(
             cells_by_genes.shape
         )
     with open(os.path.join(args.output, 'nmi_ari.tsv'), 'w') as nmi_stream:
