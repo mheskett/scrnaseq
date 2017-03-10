@@ -64,7 +64,7 @@ if __name__ == '__main__':
             cells_by_genes.shape
         )
     if cells_by_genes.shape[1] > 500:
-        print >>sys.stderr, "Running PCA.".format(cluster_size)
+        print >>sys.stderr, 'Running PCA.'
         cells_by_genes = SIMLR.helper.fast_pca(cells_by_genes, 500)
     else:
         cells_by_genes = cells_by_genes.todense()
