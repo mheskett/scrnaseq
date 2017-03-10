@@ -85,7 +85,6 @@ if __name__ == '__main__':
             print val
             print '--this is ind--'
             print ind
-            quit()
             y_pred = simlr.fast_minibatch_kmeans(F, cluster_size)
             clusters = defaultdict(set)
             for i, label in enumerate(y_pred):
