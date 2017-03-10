@@ -55,7 +55,7 @@ if __name__ == '__main__':
             for line in sys.stdin.read().split('\n')[1:]
         ]
     cells_by_genes = np.log10(1 + csr_matrix(zip(*cells_by_genes)).data)
-    with open(os.path.join(args.output), 'nmi_ari.tsv', 'w') as nmi_stream:
+    with open(os.path.join(args.output, 'nmi_ari.tsv'), 'w') as nmi_stream:
         print >>nmi_stream, 'cluster size\tnmi\tari'
         for cluster_size in xrange(args.k_min, args.k_max + 1):
             # Obtain log transform of gene counts to make data Gaussian
